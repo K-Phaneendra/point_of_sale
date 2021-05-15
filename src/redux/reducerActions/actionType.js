@@ -14,3 +14,7 @@ export const FACE_RECOGNITION = {
 export const PRINT = {
   CONTENT: 'CONTENT'
 };
+
+export const ROUTES = {
+  SET_ROUTES: 'SET_ROUTES'
+};

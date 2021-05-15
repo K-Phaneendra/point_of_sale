@@ -11,17 +11,16 @@ import {
   List,
   Typography
 } from '@material-ui/core';
-import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon
-} from 'react-feather';
+
 import NavItem from './NavItem';
+import { ADMIN_PATHS } from 'src/utils/paths';
+import {
+  BarChartIcon,
+  UsersIcon,
+  ShoppingBagIcon,
+  UserIcon,
+  SettingsIcon
+} from 'src/assets/icons/icons';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -31,44 +30,29 @@ const user = {
 
 const items = [
   {
-    href: '/app/dashboard',
+    href: ADMIN_PATHS.dashboard,
     icon: BarChartIcon,
     title: 'Dashboard'
   },
   {
-    href: '/app/customers',
+    href: ADMIN_PATHS.customers,
     icon: UsersIcon,
     title: 'Customers'
   },
   {
-    href: '/app/products',
+    href: ADMIN_PATHS.products,
     icon: ShoppingBagIcon,
     title: 'Products'
   },
   {
-    href: '/app/account',
+    href: ADMIN_PATHS.account,
     icon: UserIcon,
     title: 'Account'
   },
   {
-    href: '/app/settings',
+    href: ADMIN_PATHS.settings,
     icon: SettingsIcon,
     title: 'Settings'
-  },
-  {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: UserPlusIcon,
-    title: 'Register'
-  },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
   }
 ];
 
@@ -107,16 +91,10 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           }}
           to="/app/account"
         />
-        <Typography
-          color="textPrimary"
-          variant="h5"
-        >
+        <Typography color="textPrimary" variant="h5">
           {user.name}
         </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
+        <Typography color="textSecondary" variant="body2">
           {user.jobTitle}
         </Typography>
       </Box>
@@ -141,17 +119,10 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           p: 2
         }}
       >
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
+        <Typography align="center" gutterBottom variant="h4">
           Need more?
         </Typography>
-        <Typography
-          align="center"
-          variant="body2"
-        >
+        <Typography align="center" variant="body2">
           Upgrade to PRO version and access 20 more screens
         </Typography>
         <Box
@@ -217,7 +188,7 @@ DashboardSidebar.propTypes = {
 };
 
 DashboardSidebar.defaultProps = {
-  onMobileClose: () => { },
+  onMobileClose: () => {},
   openMobile: false
 };
 

@@ -5,34 +5,38 @@ import { connect } from 'react-redux';
 import { useRoutes } from 'react-router-dom';
 
 import Loading from './components/Loading';
+import Routes from './Routes';
 
 import GlobalStyles from 'src/components/GlobalStyles';
-import routes from 'src/routes';
 import theme from 'src/theme';
 import 'src/mixins/chartjs';
 
-const App = ({ isLoading }) => {
-  const routing = useRoutes(routes);
+const App = ({ isLoading, applicationRoutes }) => {
+  const routing = useRoutes(applicationRoutes);
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       {isLoading && <Loading />}
+      <Routes />
       {routing}
     </ThemeProvider>
   );
 };
 
 const mapStateToProps = (state) => ({
-  isLoading: state.globalReducer.isLoading
+  isLoading: state.globalReducer.isLoading,
+  applicationRoutes: state.globalReducer.applicationRoutes
 });
 
 App.propTypes = {
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  applicationRoutes: PropTypes.array
 };
 
 App.defaultProps = {
-  isLoading: false
+  isLoading: false,
+  applicationRoutes: []
 };
 
 export default connect(mapStateToProps)(App);
