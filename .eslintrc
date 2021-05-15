@@ -30,6 +30,16 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "import/order": ["error", {
+      "pathGroups": [
+        {
+          "pattern": "@app/**",
+          "group": "external",
+          "position": "after"
+        }
+      ],
+      "pathGroupsExcludedImportTypes": ["builtin"]
+    }]
   }
 }

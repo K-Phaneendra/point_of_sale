@@ -1,8 +1,8 @@
-import { LOADING, PRINT } from "../reducerActions/actionType";
+import { LOADING, PRINT } from '../reducerActions/actionType';
 
 const initialState = {
   isLoading: false,
-  printableContent: "",
+  printableContent: ''
 };
 
 export default function reducer(state = initialState, action) {
@@ -10,17 +10,17 @@ export default function reducer(state = initialState, action) {
     case LOADING.SET_LOADING:
       return {
         ...state,
-        isLoading: true,
+        isLoading: true
       };
     case LOADING.RESET_LOADING:
       return {
         ...state,
-        isLoading: false,
+        isLoading: false
       };
     case PRINT.CONTENT:
       return {
         ...state,
-        printableContent: action.payload,
+        printableContent: action.payload
       };
     default:
       return state;
