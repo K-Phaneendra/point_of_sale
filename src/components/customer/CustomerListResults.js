@@ -15,9 +15,15 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
+import { connect } from 'react-redux';
 import getInitials from 'src/utils/getInitials';
+import { setSelectedCustomerRow } from 'src/redux/reducerActions';
 
-const CustomerListResults = ({ customers, ...rest }) => {
+const CustomerListResults = ({
+  customers,
+  updateSelectedCustomerRow,
+  ...rest
+}) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -34,21 +40,50 @@ const CustomerListResults = ({ customers, ...rest }) => {
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
+  const checkAndUpdateTheSelectedRow = (newSelectedCustomerIds) => {
+    if (newSelectedCustomerIds.length === 1) {
+      // as there are no multiple rows selected, we add value to the reducer
+      // get row details by id and update the reducer
+      const selectedRecord = customers.find(
+        (each) => each.id === newSelectedCustomerIds[0]
+      );
+      updateSelectedCustomerRow(selectedRecord);
+    } else {
+      // as there are multiple rows selected, we remove value from reducer
+      updateSelectedCustomerRow({});
+    }
+  };
+
   const handleSelectOne = (event, id) => {
     const selectedIndex = selectedCustomerIds.indexOf(id);
     let newSelectedCustomerIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      // one record selected
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds,
+        id
+      );
+      checkAndUpdateTheSelectedRow(newSelectedCustomerIds);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
+      // deselected all
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(1)
+      );
+      checkAndUpdateTheSelectedRow(newSelectedCustomerIds);
     } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      // deselected last record
+      newSelectedCustomerIds = newSelectedCustomerIds.concat(
+        selectedCustomerIds.slice(0, -1)
+      );
+      checkAndUpdateTheSelectedRow(newSelectedCustomerIds);
     } else if (selectedIndex > 0) {
+      // one row deselected
       newSelectedCustomerIds = newSelectedCustomerIds.concat(
         selectedCustomerIds.slice(0, selectedIndex),
         selectedCustomerIds.slice(selectedIndex + 1)
       );
+      checkAndUpdateTheSelectedRow(newSelectedCustomerIds);
     }
 
     setSelectedCustomerIds(newSelectedCustomerIds);
@@ -80,21 +115,11 @@ const CustomerListResults = ({ customers, ...rest }) => {
                     onChange={handleSelectAll}
                   />
                 </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Registration date
-                </TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Registration date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -118,29 +143,19 @@ const CustomerListResults = ({ customers, ...rest }) => {
                         display: 'flex'
                       }}
                     >
-                      <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
+                      <Avatar src={customer.avatarUrl} sx={{ mr: 2 }}>
                         {getInitials(customer.name)}
                       </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
+                      <Typography color="textPrimary" variant="body1">
                         {customer.name}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>
-                    {customer.email}
-                  </TableCell>
+                  <TableCell>{customer.email}</TableCell>
                   <TableCell>
                     {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
                   </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
+                  <TableCell>{customer.phone}</TableCell>
                   <TableCell>
                     {moment(customer.createdAt).format('DD/MM/YYYY')}
                   </TableCell>
@@ -164,7 +179,17 @@ const CustomerListResults = ({ customers, ...rest }) => {
 };
 
 CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+  customers: PropTypes.array.isRequired,
+  updateSelectedCustomerRow: PropTypes.func
 };
 
-export default CustomerListResults;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateSelectedCustomerRow: (body) => dispatch(setSelectedCustomerRow(body))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CustomerListResults);

@@ -1,9 +1,8 @@
-import { LOADING, PRINT, ROUTES } from '../reducerActions/actionType';
+import { LOADING, ROUTES } from '../reducerActions/actionType';
 
 const initialState = {
   isLoading: false,
-  applicationRoutes: [],
-  printableContent: ''
+  applicationRoutes: []
 };
 
 export default function reducer(state = initialState, action) {
@@ -22,11 +21,6 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         applicationRoutes: action.payload
-      };
-    case PRINT.CONTENT:
-      return {
-        ...state,
-        printableContent: action.payload
       };
     default:
       return state;

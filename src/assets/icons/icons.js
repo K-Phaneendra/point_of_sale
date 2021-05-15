@@ -1,5 +1,6 @@
 import MenuIcon from '@material-ui/icons/Menu';
 import InputIcon from '@material-ui/icons/Input';
+import EditIcon from '@material-ui/icons/Edit';
 
 import {
   BarChart as BarChartIcon,
@@ -12,6 +13,7 @@ import {
 export {
   InputIcon as LogoutIcon,
   MenuIcon,
+  EditIcon,
   BarChartIcon,
   SettingsIcon,
   ShoppingBagIcon,

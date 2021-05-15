@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useRoutes } from 'react-router-dom';
 
-import Loading from './components/Loading';
+import Loading from './assets/components/Loading';
 import Routes from './Routes';
 
 import GlobalStyles from 'src/components/GlobalStyles';
