@@ -1,7 +1,5 @@
 import { Formik } from 'formik';
-import {
-  TextField
-} from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import CustomModal from 'src/assets/components/CustomModal';
@@ -48,98 +46,95 @@ const CustomerModalForm = ({
           handleSubmit,
           touched,
           values
-        }) => {
-          console.log('cccc', values);
-          return (
-            <CustomModal
-              visible={visible}
-              title={title}
-              handleCancel={handleCancel}
-              handleOk={handleSubmit}
-            >
-              <form>
-                <TextField
-                  error={Boolean(touched.name && errors.name)}
-                  fullWidth
-                  helperText={touched.name && errors.name}
-                  label="name"
-                  margin="normal"
-                  name="name"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="text"
-                  value={values.name}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.phone && errors.phone)}
-                  fullWidth
-                  helperText={touched.phone && errors.phone}
-                  label="phone"
-                  margin="normal"
-                  name="phone"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="text"
-                  value={values.phone}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.email && errors.email)}
-                  fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
-                  margin="normal"
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="email"
-                  value={values.email}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.state && errors.state)}
-                  fullWidth
-                  helperText={touched.state && errors.state}
-                  label="State"
-                  margin="normal"
-                  name="state"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="text"
-                  value={values.state}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.city && errors.city)}
-                  fullWidth
-                  helperText={touched.city && errors.city}
-                  label="city"
-                  margin="normal"
-                  name="city"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="text"
-                  value={values.city}
-                  variant="outlined"
-                />
-                <TextField
-                  error={Boolean(touched.street && errors.street)}
-                  fullWidth
-                  helperText={touched.street && errors.street}
-                  label="Street"
-                  margin="normal"
-                  name="email"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="text"
-                  value={values.street}
-                  variant="outlined"
-                />
-              </form>
-            </CustomModal>
-          );
-        }}
+        }) => (
+          <CustomModal
+            visible={visible}
+            title={title}
+            handleCancel={handleCancel}
+            handleOk={handleSubmit}
+          >
+            <form>
+              <TextField
+                error={Boolean(touched.name && errors.name)}
+                fullWidth
+                helperText={touched.name && errors.name}
+                label="name"
+                margin="normal"
+                name="name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                type="text"
+                value={values.name}
+                variant="outlined"
+              />
+              <TextField
+                error={Boolean(touched.phone && errors.phone)}
+                fullWidth
+                helperText={touched.phone && errors.phone}
+                label="phone"
+                margin="normal"
+                name="phone"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                type="text"
+                value={values.phone}
+                variant="outlined"
+              />
+              <TextField
+                error={Boolean(touched.email && errors.email)}
+                fullWidth
+                helperText={touched.email && errors.email}
+                label="Email Address"
+                margin="normal"
+                name="email"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                type="email"
+                value={values.email}
+                variant="outlined"
+              />
+              <TextField
+                error={Boolean(touched.state && errors.state)}
+                fullWidth
+                helperText={touched.state && errors.state}
+                label="State"
+                margin="normal"
+                name="state"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                type="text"
+                value={values.state}
+                variant="outlined"
+              />
+              <TextField
+                error={Boolean(touched.city && errors.city)}
+                fullWidth
+                helperText={touched.city && errors.city}
+                label="city"
+                margin="normal"
+                name="city"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                type="text"
+                value={values.city}
+                variant="outlined"
+              />
+              <TextField
+                error={Boolean(touched.street && errors.street)}
+                fullWidth
+                helperText={touched.street && errors.street}
+                label="Street"
+                margin="normal"
+                name="email"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                type="text"
+                value={values.street}
+                variant="outlined"
+              />
+            </form>
+          </CustomModal>
+        )}
       </Formik>
     );
   }

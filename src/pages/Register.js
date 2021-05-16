@@ -12,6 +12,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import { ADMIN_PATHS } from 'src/utils/paths';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const Register = () => {
               })
             }
             onSubmit={() => {
-              navigate('/app/dashboard', { replace: true });
+              navigate(ADMIN_PATHS.dashboard, { replace: true });
             }}
           >
             {({

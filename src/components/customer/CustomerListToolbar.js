@@ -12,11 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Search as SearchIcon } from 'react-feather';
 
 import CustomerModalForm from './CustomerModalForm';
 
-import { EditIcon } from 'src/assets/icons/icons';
+import { EditIcon, SearchIcon } from 'src/assets/icons/icons';
 
 const SearchAndOptions = ({ onEdit, isEditDisabled, onAdd }) => (
   <Box>

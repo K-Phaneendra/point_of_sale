@@ -17,12 +17,12 @@ const CustomModal = ({
       visible={visible}
       onOk={handleOk}
       onCancel={handleCancel}
+      maskClosable={false}
       footer={[
-        <Button color="secondary" variant="outlined" onClick={handleCancel}>
+        <Button color="secondary" variant="outlined" onClick={handleCancel} key="1" className="mr-2">
           Cancel
         </Button>,
-        <>&nbsp;</>,
-        <Button color="primary" variant="contained" onClick={handleOk}>
+        <Button color="primary" variant="contained" onClick={handleOk} key="2">
           {primaryButtonName}
         </Button>
       ]}

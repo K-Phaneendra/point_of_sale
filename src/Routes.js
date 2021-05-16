@@ -17,6 +17,9 @@ import NotFound from 'src/pages/NotFound';
 import ProductList from 'src/pages/ProductList';
 import Register from 'src/pages/Register';
 import Settings from 'src/pages/Settings';
+import Invoices from 'src/pages/Invoices';
+import InvoiceCreate from 'src/pages/InvoiceCreate';
+import InvoiceList from 'src/pages/InvoicesList';
 
 const routesBeforeLogin = [
   {
@@ -50,6 +53,9 @@ const adminRoutes = [
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'products', element: <ProductList /> },
       { path: 'settings', element: <Settings /> },
+      { path: 'invoices', element: <Invoices /> },
+      { path: 'invoice-create', element: <InvoiceCreate /> },
+      { path: 'invoice-list', element: <InvoiceList /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
   }

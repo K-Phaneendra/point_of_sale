@@ -19,7 +19,8 @@ import {
   UsersIcon,
   ShoppingBagIcon,
   UserIcon,
-  SettingsIcon
+  SettingsIcon,
+  ReceiptIcon
 } from 'src/assets/icons/icons';
 
 const user = {
@@ -33,6 +34,11 @@ const items = [
     href: ADMIN_PATHS.dashboard,
     icon: BarChartIcon,
     title: 'Dashboard'
+  },
+  {
+    href: ADMIN_PATHS.invoices,
+    icon: ReceiptIcon,
+    title: 'Invoices'
   },
   {
     href: ADMIN_PATHS.customers,
