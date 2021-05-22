@@ -4,9 +4,21 @@
 .text-align-center {
   text-align: center;
 }
+.text-align-left {
+  text-align: left;
+}
+.m-auto {
+  margin: auto !important;
+}
 .mr-1 {
   margin-right: 0.25rem !important;
 }
 .mr-2 {
   margin-right: 0.5rem !important;
+}
+.mt-3 {
+  margin-top: 0.75rem !important;
+}
+.padding-bottom-16 {
+  padding-bottom: 16px !important;
 }

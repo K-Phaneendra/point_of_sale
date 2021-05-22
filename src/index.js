@@ -10,6 +10,8 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 import './assets/css/global.css';
+// custom and design styles
+import './assets/css/customAntDesign.css';
 
 ReactDOM.render(
   <Provider store={configureStore()}>

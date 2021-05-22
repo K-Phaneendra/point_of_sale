@@ -8,8 +8,6 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GetAppIcon from '@material-ui/icons/GetApp';
 
 const ProductCard = ({ product, ...rest }) => (
   <Card
@@ -40,7 +38,7 @@ const ProductCard = ({ product, ...rest }) => (
         gutterBottom
         variant="h4"
       >
-        {product.title}
+        {product.name}
       </Typography>
       <Typography
         align="center"
@@ -65,14 +63,15 @@ const ProductCard = ({ product, ...rest }) => (
             display: 'flex'
           }}
         >
-          <AccessTimeIcon color="action" />
+          {/* <AccessTimeIcon color="action" /> */}
           <Typography
             color="textSecondary"
             display="inline"
             sx={{ pl: 1 }}
             variant="body2"
           >
-            Updated 2hr ago
+            Purity:&nbsp;
+            {product.purity}
           </Typography>
         </Grid>
         <Grid
@@ -82,16 +81,14 @@ const ProductCard = ({ product, ...rest }) => (
             display: 'flex'
           }}
         >
-          <GetAppIcon color="action" />
           <Typography
             color="textSecondary"
             display="inline"
             sx={{ pl: 1 }}
             variant="body2"
           >
-            {product.totalDownloads}
-            {' '}
-            Downloads
+            Category:&nbsp;
+            {product.category}
           </Typography>
         </Grid>
       </Grid>

@@ -1,150 +1,91 @@
 import { useEffect, useState } from 'react';
-import { TextField } from '@material-ui/core';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Formik } from 'formik';
+
+import CustomerDetailsForm from './CustomerDetailsForm';
+import ProductDetailsForm from './ProductDetailsForm';
+import NetPayable from './NetPayable';
+
 import Wizard from 'src/assets/components/Wizard';
 
-const CustomerDetailsForm = ({ record }) => {
-  const initialValues = {
-    name: record.name,
-    email: record.email,
-    state: !record.address ? '' : record.address.state,
-    city: !record.address ? '' : record.address.city,
-    street: !record.address ? '' : record.address.street,
-    phone: record.phone
-  };
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Must be a valid email')
-      .max(255)
-      .required('Email is required'),
-    name: Yup.string().max(255).required('Name is required'),
-    state: Yup.string().max(255).required('State is required'),
-    city: Yup.string().max(255).required('City is required'),
-    street: Yup.string().max(255).required('Street is required'),
-    phone: Yup.string().max(255).required('Phone is required')
-  });
-  const submit = () => {
-    console.log('in subm');
-  };
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={submit}
-    >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        touched,
-        values
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <TextField
-            error={Boolean(touched.name && errors.name)}
-            fullWidth
-            helperText={touched.name && errors.name}
-            label="name"
-            margin="normal"
-            name="name"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            value={values.name}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.phone && errors.phone)}
-            fullWidth
-            helperText={touched.phone && errors.phone}
-            label="phone"
-            margin="normal"
-            name="phone"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            value={values.phone}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.email && errors.email)}
-            fullWidth
-            helperText={touched.email && errors.email}
-            label="Email Address"
-            margin="normal"
-            name="email"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="email"
-            value={values.email}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.state && errors.state)}
-            fullWidth
-            helperText={touched.state && errors.state}
-            label="State"
-            margin="normal"
-            name="state"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            value={values.state}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.city && errors.city)}
-            fullWidth
-            helperText={touched.city && errors.city}
-            label="city"
-            margin="normal"
-            name="city"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            value={values.city}
-            variant="outlined"
-          />
-          <TextField
-            error={Boolean(touched.street && errors.street)}
-            fullWidth
-            helperText={touched.street && errors.street}
-            label="Street"
-            margin="normal"
-            name="email"
-            onBlur={handleBlur}
-            onChange={handleChange}
-            type="text"
-            value={values.street}
-            variant="outlined"
-          />
-        </form>
-      )}
-    </Formik>
-  );
-};
-
-CustomerDetailsForm.propTypes = {
-  record: PropTypes.object
-};
-
-CustomerDetailsForm.defaultProps = {
-  record: {}
-};
-
-const InvoiceForm = () => {
+// eslint-disable-next-line
+const InvoiceForm = ({ customer_details, customer_address, invoiceFormProducts, currentTaxRates }) => {
   const [steps, setSteps] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const next = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const prev = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const generateCustomerDetailsFormBody = () => {
+    const formBody = {
+      name: '',
+      email: '',
+      address: {
+        state: '',
+        city: '',
+        street: ''
+      },
+      phone: ''
+    };
+    try {
+      formBody.name = customer_details.name;
+      formBody.phone = customer_details.phone;
+      formBody.address.state = customer_address.stateCode;
+      formBody.address.city = customer_address.cityCode;
+      formBody.address.street = customer_address.street;
+      return formBody;
+    } catch (err) {
+      return formBody;
+    }
+  };
 
   const generateSteps = () => {
+    const totalSteps = 4;
+    const customerDetailsFormBody = generateCustomerDetailsFormBody();
     const stepsForm = [
-      { title: 'Customer details', content: <CustomerDetailsForm /> },
-      { title: 'Product details', content: <CustomerDetailsForm /> },
-      { title: 'Customer details', content: <CustomerDetailsForm /> },
       {
         title: 'Customer details',
+        content: (
+          <CustomerDetailsForm
+            next={next}
+            totalSteps={totalSteps}
+            currentStep={0}
+            record={customerDetailsFormBody}
+          />
+        )
+      },
+      {
+        title: 'Product details',
+        content: (
+          <ProductDetailsForm
+            next={next}
+            prev={prev}
+            totalSteps={totalSteps}
+            currentStep={1}
+            invoiceFormProducts={invoiceFormProducts}
+          />
+        )
+      },
+      {
+        title: 'Net payable',
+        content: (
+          <NetPayable
+            next={next}
+            prev={prev}
+            totalSteps={totalSteps}
+            currentStep={2}
+            products={invoiceFormProducts}
+            currentTaxRates={currentTaxRates}
+          />
+        )
+      },
+      {
+        title: 'Summary and print',
         content: <>This is invoice summary last step</>
       }
     ];
@@ -153,9 +94,60 @@ const InvoiceForm = () => {
 
   useEffect(() => {
     generateSteps();
-  }, []);
+    // eslint-disable-next-line
+  }, [customer_details, customer_address, currentStep]);
 
-  return <Wizard steps={steps} />;
+  return (
+    <Wizard steps={steps} showPreviousNext={false} currentStep={currentStep} />
+  );
 };
 
-export default InvoiceForm;
+InvoiceForm.propTypes = {
+  customer_details: PropTypes.shape({
+    name: PropTypes.string,
+    phone: PropTypes.string
+  }),
+  customer_address: PropTypes.shape({
+    country: PropTypes.string,
+    state: PropTypes.string,
+    city: PropTypes.string,
+    street: PropTypes.string,
+    stateCode: PropTypes.string,
+    cityCode: PropTypes.number
+  }),
+  invoiceFormProducts: PropTypes.array,
+  currentTaxRates: PropTypes.shape({
+    CGST: PropTypes.string,
+    SGST: PropTypes.string,
+    IGST: PropTypes.string
+  })
+};
+InvoiceForm.defaultProps = {
+  customer_details: {
+    name: 'abcd',
+    phone: '1234'
+  },
+  customer_address: {
+    country: 'Canada',
+    state: 'Toronto',
+    city: 'abcd city',
+    street: '33333 Fulton Street',
+    stateCode: 'TG',
+    cityCode: 132132
+  },
+  invoiceFormProducts: [],
+  currentTaxRates: {
+    CGST: '1.5',
+    SGST: '1.5',
+    IGST: ''
+  },
+};
+
+const mapStateToProps = (state) => ({
+  customer_details: state.invoiceReducer.invoiceForm.customer_details,
+  customer_address: state.invoiceReducer.invoiceForm.customer_address,
+  invoiceFormProducts: state.invoiceReducer.invoiceForm.products,
+  currentTaxRates: state.invoiceReducer.currentTaxRates
+});
+
+export default connect(mapStateToProps)(InvoiceForm);

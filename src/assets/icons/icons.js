@@ -13,6 +13,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
 import {
   BarChart as BarChartIcon,
@@ -36,6 +37,7 @@ export {
   ArrowBackIcon,
   KeyboardArrowDownIcon,
   KeyboardArrowUpIcon,
+  RemoveCircleIcon,
   BarChartIcon,
   SettingsIcon,
   ShoppingBagIcon,

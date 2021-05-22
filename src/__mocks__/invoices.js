@@ -15,7 +15,9 @@ export default [
     },
     products: [
       {
+        id: 'product ID 1',
         name: 'gold necklace',
+        quantity: 2,
         grossWeight: '20',
         netWeight: '10',
         va: '2',
@@ -23,7 +25,9 @@ export default [
         amount: '440' // (unit rate * (net weight + VA))
       },
       {
+        id: 'product ID 2',
         name: 'silver necklace',
+        quantity: 3,
         grossWeight: '20',
         netWeight: '10',
         va: '1',
@@ -32,12 +36,12 @@ export default [
       }
     ],
     tax: {
-      CGST: '1.5',
-      SGST: '1.5',
+      CGST: '15', // in Rs
+      SGST: '15', // in Rs
       IGST: ''
     },
     exchangeValue: '340',
-    netPayable: '', // (Amount + (Amount * CGST% + Amount * SGST% + Amount * IGST%) - Exchange value)
+    netPayable: '1326.5', // (Amount + (Amount * CGST% + Amount * SGST% + Amount * IGST%) - Exchange value)
     cash: '',
     card: '',
     cheque: '',
@@ -59,7 +63,9 @@ export default [
     },
     products: [
       {
+        id: 'product ID 3',
         name: 'diamond necklace',
+        quantity: 1,
         grossWeight: '20',
         netWeight: '10',
         va: '2',
@@ -67,7 +73,9 @@ export default [
         amount: '440' // (unit rate * (net weight + VA))
       },
       {
+        id: 'product ID 4',
         name: 'platinum necklace',
+        quantity: 3,
         grossWeight: '20',
         netWeight: '10',
         va: '1',

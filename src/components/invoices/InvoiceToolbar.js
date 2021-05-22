@@ -89,7 +89,7 @@ InvoiceToolbar.propTypes = {
   fromPage: PropTypes.string
 };
 
-InvoiceToolbar.propTypes = {
+InvoiceToolbar.defaultProps = {
   fromPage: 'invoice-create'
 };
 

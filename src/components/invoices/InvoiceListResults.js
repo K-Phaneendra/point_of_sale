@@ -114,12 +114,13 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.id}
         </TableCell>
-        <TableCell align="right">
+        <TableCell>
           {moment(row.createdAt).format('DD/MM/YYYY')}
         </TableCell>
-        <TableCell align="right">{row.customer_details.name}</TableCell>
-        <TableCell align="right">{row.customer_details.phone}</TableCell>
+        <TableCell>{row.customer_details.name}</TableCell>
+        <TableCell>{row.customer_details.phone}</TableCell>
         <TableCell align="right">{row.exchangeValue}</TableCell>
+        <TableCell align="right">{row.netPayable}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -226,7 +227,8 @@ const InvoiceListResults = ({
                 <TableCell>Created date</TableCell>
                 <TableCell>Customer name</TableCell>
                 <TableCell>Customer phone</TableCell>
-                <TableCell>Exchange value</TableCell>
+                <TableCell align="right">Exchange value</TableCell>
+                <TableCell align="right">Net payable</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
