@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CustomerDetailsForm from './CustomerDetailsForm';
 import ProductDetailsForm from './ProductDetailsForm';
-import NetPayable from './NetPayable';
+import InvoiceFormHeader from './InvoiceFormHeader';
 
 import Wizard from 'src/assets/components/Wizard';
 
@@ -21,67 +20,46 @@ const InvoiceForm = ({ customer_details, customer_address, invoiceFormProducts, 
     setCurrentStep(currentStep - 1);
   };
 
-  const generateCustomerDetailsFormBody = () => {
-    const formBody = {
-      name: '',
-      email: '',
-      address: {
-        state: '',
-        city: '',
-        street: ''
-      },
-      phone: ''
-    };
-    try {
-      formBody.name = customer_details.name;
-      formBody.phone = customer_details.phone;
-      formBody.address.state = customer_address.stateCode;
-      formBody.address.city = customer_address.cityCode;
-      formBody.address.street = customer_address.street;
-      return formBody;
-    } catch (err) {
-      return formBody;
-    }
-  };
+  // const generateCustomerDetailsFormBody = () => {
+  //   const formBody = {
+  //     name: '',
+  //     email: '',
+  //     address: {
+  //       state: '',
+  //       city: '',
+  //       street: ''
+  //     },
+  //     phone: ''
+  //   };
+  //   try {
+  //     formBody.name = customer_details.name;
+  //     formBody.phone = customer_details.phone;
+  //     formBody.address.state = customer_address.stateCode;
+  //     formBody.address.city = customer_address.cityCode;
+  //     formBody.address.street = customer_address.street;
+  //     return formBody;
+  //   } catch (err) {
+  //     return formBody;
+  //   }
+  // };
 
   const generateSteps = () => {
     const totalSteps = 4;
-    const customerDetailsFormBody = generateCustomerDetailsFormBody();
+    // const customerDetailsFormBody = generateCustomerDetailsFormBody();
     const stepsForm = [
-      {
-        title: 'Customer details',
-        content: (
-          <CustomerDetailsForm
-            next={next}
-            totalSteps={totalSteps}
-            currentStep={0}
-            record={customerDetailsFormBody}
-          />
-        )
-      },
       {
         title: 'Product details',
         content: (
-          <ProductDetailsForm
-            next={next}
-            prev={prev}
-            totalSteps={totalSteps}
-            currentStep={1}
-            invoiceFormProducts={invoiceFormProducts}
-          />
-        )
-      },
-      {
-        title: 'Net payable',
-        content: (
-          <NetPayable
-            next={next}
-            prev={prev}
-            totalSteps={totalSteps}
-            currentStep={2}
-            products={invoiceFormProducts}
-            currentTaxRates={currentTaxRates}
-          />
+          <>
+            <InvoiceFormHeader />
+            <ProductDetailsForm
+              next={next}
+              prev={prev}
+              totalSteps={totalSteps}
+              currentStep={0}
+              invoiceFormProducts={invoiceFormProducts}
+            />
+          </>
         )
       },
       {

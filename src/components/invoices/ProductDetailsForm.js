@@ -22,6 +22,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import products from '../../__mocks__/products';
+import TAX from '../../__mocks__/tax.json';
 
 import PreviousNext from './PreviousNext';
 
@@ -100,7 +101,13 @@ const ProductDetailsForm = ({
   };
 
   const initialValues = {
-    products: getProducts()
+    products: getProducts(),
+    tax: {
+      CGST: TAX[0].CGST, // in %
+      SGST: TAX[0].SGST, // in %
+      IGST: '' // in Rs will be calculated by the selected customer address
+    },
+    exchangeValue: '',
   };
   const validationSchema = Yup.object().shape({
     products: Yup.array().of(
@@ -113,7 +120,8 @@ const ProductDetailsForm = ({
         quantity: Yup.number().min(0).required('Quantity is required'),
         amount: Yup.number()
       })
-    )
+    ),
+    exchangeValue: Yup.number(),
   });
 
   const submit = (values) => {
@@ -157,6 +165,25 @@ const ProductDetailsForm = ({
             return {};
           }
         };
+        // calculate net payable
+        const calculateNetPayable = () => {
+          try {
+            const validExchangeValue = values.exchangeValue < 0 ? 0 : values.exchangeValue;
+            // Net payable = (Amount + (Amount * CGST% + Amount * SGST% + Amount * IGST%) - Exchange value)
+            const subTotal = calculateSubTotal(values.products);
+            const currentTaxRates = values.tax;
+            const taxableAmount = (
+              subTotal * (currentTaxRates.CGST / 100)
+              + subTotal * (currentTaxRates.SGST / 100)
+              + subTotal * (currentTaxRates.IGST / 100)
+            );
+            const totalAmountWithTaxes = subTotal + taxableAmount;
+            const netPayable = totalAmountWithTaxes - validExchangeValue;
+            return netPayable;
+          } catch (err) {
+            return 0;
+          }
+        };
         return (
           <>
             <Form>
@@ -195,6 +222,7 @@ const ProductDetailsForm = ({
                         >
                           <TableHead>
                             <TableRow>
+                              <TableCell>HSN Code</TableCell>
                               <TableCell>Product name</TableCell>
                               <TableCell>Gross weight (gm)</TableCell>
                               <TableCell>Net weight (gm)</TableCell>
@@ -223,6 +251,9 @@ const ProductDetailsForm = ({
                               };
                               return (
                                 <TableRow key={`row_${index + 1}`}>
+                                  <TableCell width="100px">
+                                    {row.HSNcode}
+                                  </TableCell>
                                   <TableCell>
                                     {/* product name field */}
                                     <Autocomplete
@@ -361,7 +392,7 @@ const ProductDetailsForm = ({
                                       size="small"
                                     />
                                   </TableCell>
-                                  <TableCell align="right">
+                                  <TableCell align="right" style={{ fontSize: 'x-large' }}>
                                     {/* display amount */}
                                     {calculateAmountAndDisplay(
                                       values.products[index]
@@ -383,9 +414,49 @@ const ProductDetailsForm = ({
                             })}
 
                             <TableRow>
-                              <TableCell rowSpan={1} colSpan={5} />
+                              <TableCell rowSpan={1} colSpan={6} />
                               <TableCell>Sub total</TableCell>
-                              <TableCell align="right">{calculateSubTotal(values.products)}</TableCell>
+                              <TableCell align="right" style={{ fontSize: 'x-large', fontWeight: 'bold' }}>{calculateSubTotal(values.products)}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell rowSpan={1} colSpan={6} />
+                              <TableCell>{`CGST (${values.tax.CGST}%)`}</TableCell>
+                              <TableCell align="right" style={{ fontSize: 'x-large', fontWeight: 'bold' }}>{Number((calculateSubTotal(values.products) * values.tax.CGST) / 100).toFixed('2')}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell rowSpan={1} colSpan={6} />
+                              <TableCell>{`SGST (${values.tax.SGST}%)`}</TableCell>
+                              <TableCell align="right" style={{ fontSize: 'x-large', fontWeight: 'bold' }}>{Number((calculateSubTotal(values.products) * values.tax.SGST) / 100).toFixed('2')}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell rowSpan={1} colSpan={6} />
+                              <TableCell>{`IGST (${values.tax.IGST}%)`}</TableCell>
+                              <TableCell align="right" style={{ fontSize: 'x-large', fontWeight: 'bold' }}>{Number((calculateSubTotal(values.products) * values.tax.IGST) / 100).toFixed('2')}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell rowSpan={1} colSpan={6} />
+                              <TableCell>Exchange value (Rs)</TableCell>
+                              <TableCell align="right" width="150px">
+                                <TextField
+                                  error={Boolean(touched.exchangeValue && errors.exchangeValue)}
+                                  fullWidth
+                                  helperText={touched.exchangeValue && errors.exchangeValue}
+                                  label="Exchange value"
+                                  margin="normal"
+                                  name="exchangeValue"
+                                  // onBlur={handleBlur}
+                                  onChange={handleChange}
+                                  type="number"
+                                  value={values.exchangeValue}
+                                  variant="outlined"
+                                  size="small"
+                                />
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell rowSpan={1} colSpan={6} />
+                              <TableCell>Net payable</TableCell>
+                              <TableCell align="right" style={{ fontSize: 'x-large', fontWeight: 'bold' }}>{Number(calculateNetPayable()).toFixed('2')}</TableCell>
                             </TableRow>
                           </TableBody>
                         </Table>

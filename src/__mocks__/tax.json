@@ -1,0 +1,12 @@
+[
+  {
+    "GSTNumber": "36AKHPP4537A1ZB",
+    "CGST": "1.5",
+    "SGST": "1.5",
+    "IGST": "",
+    "ShopName": "Shop name ABCD",
+    "ShopAddress": "Lane so and so, street xyz",
+    "ShopCity": "Hyderabad",
+    "ShopState": "Telangana"
+  }
+]

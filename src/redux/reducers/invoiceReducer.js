@@ -24,6 +24,7 @@ const initialState = {
     products: [
       {
         id: 'product ID 1',
+        HSNcode: '7113',
         name: 'Platinum ring',
         quantity: 2,
         grossWeight: '20',
@@ -34,6 +35,7 @@ const initialState = {
       },
       {
         id: 'product ID 3',
+        HSNcode: '7113',
         name: 'Silver ring',
         quantity: 3,
         grossWeight: '20',
